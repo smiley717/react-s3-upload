@@ -1,19 +1,23 @@
 import React, { useState } from 'react';
 import AWS from 'aws-sdk';
+require('dotenv').config()
+
+const { REACT_APP_ACCESS_KEY_ID, REACT_APP_SECRET_ACCESS_KEY, REACT_APP_REGION } = process.env;
 
 const S3_BUCKET = 'synkbooks-log-bucket';
-const REGION = 'us-east-1';
 
 AWS.config.update({
-    accessKeyId: '',
-    secretAccessKey: ''
+    region: REACT_APP_REGION,
+    accessKeyId: REACT_APP_ACCESS_KEY_ID,
+    secretAccessKey: REACT_APP_SECRET_ACCESS_KEY
 })
+
+console.log(REACT_APP_REGION + REACT_APP_ACCESS_KEY_ID + REACT_APP_SECRET_ACCESS_KEY)
 
 const myBucket = new AWS.S3({
     params: { Bucket: S3_BUCKET },
-    region: REGION
+    region: REACT_APP_REGION
 })
-
 const UploadImageToS3WithNativeSdk = () => {
     const [progress, setProgress] = useState(0);
     const [selectedFile, setSelectedFile] = useState(null);
